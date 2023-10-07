@@ -60,15 +60,23 @@ LIMIT 5;
 
 -- 6. How many movies in the dataset are distributed by a company which is not headquartered in California? Which of these movies has the highest imdb rating?
 
-SELECT 
-FROM
+SELECT film_title, headquarters, imdb_rating
+FROM specs
+INNER JOIN distributors
+ON distributors.distributor_id = specs.domestic_distributor_id
+INNER JOIN rating
+ON rating.movie_id = specs.movie_id
+WHERE headquarters NOT ILIKE '%Burbank, CA%';
 
---Answer:
+--Answer: 264
 
 -- 7. Which have a higher average rating, movies which are over two hours long or movies which are under two hours?
 
-SELECT 
-FROM
+SELECT length_in_min, AVG(imdb_rating)
+FROM specs
+LEFT JOIN rating
+ON rating.movie_id = specs.movie_id
+GROUP BY ;
 
 --Answer:
 
