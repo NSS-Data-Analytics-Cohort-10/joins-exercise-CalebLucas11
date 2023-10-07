@@ -18,10 +18,10 @@ SELECT release_year,
 FROM specs
 LEFT JOIN rating
 ON specs.movie_id = rating.movie_id
-WHERE avg_imdb_rating DESC
-GROUP BY release_year;
+GROUP by release_year
+ORDER BY avg_imdb_rating DESC;
 
---Answer:
+--Answer: 1991
 
 -- 3. What is the highest grossing G-rated movie? Which company distributed it?
 
@@ -39,17 +39,24 @@ ORDER BY worldwide_gross DESC;
 -- 4. Write a query that returns, for each distributor in the distributors table, the distributor name and the number of movies associated with that distributor in the movies 
 -- table. Your result set should include all of the distributors, whether or not they have any movies in the movies table.
 
-SELECT
-FROM
-
---Answer:
+SELECT DISTINCT company_name, COUNT (film_title)
+FROM specs
+FULL JOIN distributors
+ON specs.domestic_distributor_id = distributors.distributor_id
+GROUP BY distributors.company_name;
 
 -- 5. Write a query that returns the five distributors with the highest average movie budget.
 
-SELECT 
-FROM
+SELECT company_name, AVG(film_budget)
+FROM specs
+INNER JOIN revenue
+ON specs.movie_id = revenue.movie_id
+INNER JOIN distributors
+ON specs.domestic_distributor_id = distributors.distributor_id
+GROUP BY company_name
+ORDER BY AVG(film_budget) DESC
+LIMIT 5;
 
---Answer:
 
 -- 6. How many movies in the dataset are distributed by a company which is not headquartered in California? Which of these movies has the highest imdb rating?
 
