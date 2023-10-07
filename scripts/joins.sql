@@ -83,7 +83,7 @@ SELECT
 	FROM specs
 	LEFT JOIN rating
 	ON rating.movie_id = specs.movie_id
-	WHERE length_in_min > 120) AS avg_rating_over_2, 
+	WHERE length_in_min >= 120) AS avg_rating_over_2, 
 (SELECT AVG(imdb_rating)
 	FROM specs
 	LEFT JOIN rating
