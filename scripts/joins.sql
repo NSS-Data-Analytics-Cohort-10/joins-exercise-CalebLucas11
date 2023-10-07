@@ -66,9 +66,9 @@ INNER JOIN distributors
 ON distributors.distributor_id = specs.domestic_distributor_id
 INNER JOIN rating
 ON rating.movie_id = specs.movie_id
-WHERE headquarters NOT ILIKE '%Burbank, CA%';
+WHERE headquarters NOT ILIKE '%CA%';
 
---Answer: 264
+--Answer: 1
 
 -- 7. Which have a higher average rating, movies which are over two hours long or movies which are under two hours?
 
