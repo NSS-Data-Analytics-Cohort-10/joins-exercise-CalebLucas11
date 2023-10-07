@@ -27,9 +27,9 @@ ORDER BY avg_imdb_rating DESC;
 
 SELECT film_title, mpaa_rating, worldwide_gross
 FROM specs
-INNER JOIN revenue
+LEFT JOIN revenue
 ON specs.movie_id = revenue.movie_id
-INNER JOIN distributors
+LEFT JOIN distributors
 ON specs.domestic_distributor_id = distributors.distributor_id
 WHERE mpaa_rating = 'G'
 ORDER BY worldwide_gross DESC;
@@ -72,13 +72,29 @@ WHERE headquarters NOT ILIKE '%CA%';
 
 -- 7. Which have a higher average rating, movies which are over two hours long or movies which are under two hours?
 
-SELECT length_in_min, AVG(imdb_rating)
+SELECT AVG(imdb_rating)
 FROM specs
 LEFT JOIN rating
 ON rating.movie_id = specs.movie_id
-GROUP BY ;
+WHERE length_in_min < 120
 
---Answer:
+SELECT
+(SELECT AVG(imdb_rating)
+	FROM specs
+	LEFT JOIN rating
+	ON rating.movie_id = specs.movie_id
+	WHERE length_in_min > 120) AS avg_rating_over_2, 
+(SELECT AVG(imdb_rating)
+	FROM specs
+	LEFT JOIN rating
+	ON rating.movie_id = specs.movie_id
+	WHERE length_in_min < 120) AS avg_rating_under_2
+FROM specs
+LEFT JOIN rating
+ON rating.movie_id = specs.movie_id
+LIMIT 1;
+
+--Answer: Over 2 hours
 
 SELECT *
 FROM distributors;
